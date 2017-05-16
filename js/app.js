@@ -16,7 +16,7 @@ function Item (id, path) {
 function tallyVote ( tracker, id ) {
     tracker.votes += 1;
 
-    itemArray.forEach( function add ( Item ) {
+    itemArray.forEach(function add ( Item ) {
         if ( Item.id === id ) {
             Item.votes += 1;
         }
@@ -65,7 +65,7 @@ function randomIndex() {
 }
 
 function getIndices (tracker) {
-
+    var lastTracker = tracker;
     var selectedIndices = []; 
     while ( selectedIndices.length < 3 )  {
         var item = randomIndex( itemArray );
@@ -74,7 +74,6 @@ function getIndices (tracker) {
             selectedIndices.push( item );
         }
     }
-    selectedIndices = 
     console.log (tracker, lastTracker, selectedIndices);
     return selectedIndices;
 }
