@@ -1,6 +1,7 @@
 //DATA
 
 var itemArray = [];
+var idArray = [];
 
 //CONSTRUCTOR & INSTANCES
 
@@ -11,6 +12,7 @@ function Item (id, path) {
     this.impressions = 0;
 
     itemArray.push(this);
+    idArray.push(this.Id);
 }
 
 function tallyVote ( tracker, id ) {
@@ -22,7 +24,7 @@ function tallyVote ( tracker, id ) {
         }
     });
     
-    if ( tracker.votes > 3 ) {
+    if ( tracker.votes > 4 ) {
         showResults(tracker);
     }
 }
@@ -107,6 +109,7 @@ function displayOptions (tracker) {
 function showResults (tracker) {
     tracker.displaySection.removeEventListener('click', voteHandler);
     console.table( itemArray );
+    displayChart();
 }
 
 //EVENT LISTENER
@@ -121,6 +124,42 @@ function voteHandler () {
 }
 
 //INITIALIZE
-
 instantiateItems();
 displayOptions(tracker);
+console.log (itemArray);
+
+function displayChart() {
+
+    // var labels = [];
+    // itemArray.forEach( function(item){
+    //     labels.push( item.id );
+    // })
+
+    var data = [];
+    itemArray.forEach(function (item) {
+        data.push(item.votes);
+    })
+
+    var items = document.getElementById('items').getContext('2d');
+    var itemData = new Chart(items, {
+        type: 'bar',
+        data: {
+            labels: idArray,
+                datasets: [{
+                    label: '# of Votes',
+                    data: data
+                }]
+            },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 10,
+                        min: 0,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
+    });
+}
