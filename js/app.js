@@ -146,7 +146,6 @@ function pushToLocalStorage( data ) {
     console.log("pushed " + localStorage.data);
 }
 
-//I wanted to try using the array parameter on the forEach
 function getFromLocalStorage() {
     var localString = localStorage.getItem('data');
     var pastData = JSON.parse(localString);
@@ -155,8 +154,6 @@ function getFromLocalStorage() {
 
         itemArray.forEach(function (item, index, itemArray) {
             itemArray[index].votes += pastData[index];
-
-            console.log(pastData[index]);
         })
     };
 }
