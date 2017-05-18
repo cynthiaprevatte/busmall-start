@@ -154,23 +154,12 @@ function getFromLocalStorage() {
 
         itemArray.forEach(function (item, index, itemArray) {
             itemArray[index].votes += pastData[index];
+
+    //  itemArray.forEach(function (item, index) {
+    //      item.votes += pastData[index];
         })
     };
 }
-
-// function getFromLocalStorage() {
-//     var localString = localStorage.getItem('data');
-//     var pastData = JSON.parse(localString);
-//     if (pastData){ 
-//         console.log ("pulled" + pastData);
-
-//         itemArray.forEach(function (item, index) {
-//             item.votes += pastData[index];
-
-//             console.log(pastData[index]);
-//         })
-//     };
-// }
 
 //INITIALIZE
 instantiateItems();
