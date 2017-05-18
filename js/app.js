@@ -1,9 +1,6 @@
-//DATA
 
 var itemArray = [];
 var idArray = [];
-
-//CONSTRUCTOR & INSTANCES
 
 function Item (id, path) {
     this.id = id;
@@ -30,6 +27,7 @@ function tallyVote ( tracker, id ) {
 }
 
 function instantiateItems() {
+
     var bag = new Item('bag', 'images/bag.jpg');
     var banana = new Item('banana', 'images/banana.jpg');
     var bathroom = new Item('bathroom', 'images/bathroom.jpg');
@@ -76,12 +74,10 @@ function getIndices (tracker) {
             selectedIndices.push( item );
         }
     }
-    console.log (tracker, lastTracker, selectedIndices);
     return selectedIndices;
 }
 
 function displayOptions (tracker) {
-    // get 3 random Items
     var randomItems = getIndices( tracker );
     var index1 = randomItems[0];
     var index2 = randomItems[1];
@@ -103,7 +99,6 @@ function displayOptions (tracker) {
     item1.impressions++;
     item2.impressions++;
     item3.impressions++;
-    
 }
 
 function showResults (tracker) {
@@ -112,30 +107,9 @@ function showResults (tracker) {
     displayChart();
 }
 
-//EVENT LISTENER
-
-tracker.displaySection.addEventListener('click', voteHandler);
-
-function voteHandler () {
-    if ( event.target.id !== 'display') {
-        tallyVote( tracker, event.target.id);
-        displayOptions( tracker);
-    }
-}
-
-//INITIALIZE
-instantiateItems();
-displayOptions(tracker);
-console.log (itemArray);
-
 function displayChart() {
-
-    // var labels = [];
-    // itemArray.forEach( function(item){
-    //     labels.push( item.id );
-    // })
-
     var data = [];
+
     itemArray.forEach(function (item) {
         data.push(item.votes);
     })
@@ -162,4 +136,40 @@ function displayChart() {
             }
         }
     });
+    pushToLocalStorage( data );
+}
+
+function pushToLocalStorage( data ) {
+
+    var dataString = JSON.stringify( data );
+    localStorage.setItem('data', dataString);
+    console.log("pushed " + localStorage.data);
+}
+
+function getFromLocalStorage() {
+    var localString = localStorage.getItem('data');
+    var pastData = JSON.parse(localString);
+    if (pastData){ 
+        console.log ("pulled" + pastData);
+
+        itemArray.forEach(function (item, index) {
+            item.votes += pastData[index];
+
+            console.log(pastData[index]);
+        })
+    };
+}
+
+//INITIALIZE
+instantiateItems();
+displayOptions(tracker);
+getFromLocalStorage();
+
+//EVENT LISTENER
+tracker.displaySection.addEventListener('click', voteHandler);
+function voteHandler() {
+    if (event.target.id !== 'display') {
+        tallyVote(tracker, event.target.id);
+        displayOptions(tracker);
+    };
 }
